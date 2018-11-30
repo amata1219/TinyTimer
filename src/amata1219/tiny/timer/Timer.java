@@ -11,7 +11,7 @@ public class Timer {
 	private String startCommand, endCommand;
 
 	public Timer(int seconds, int prepareSeconds, String startCommand, String endCommand, boolean onChat){
-
+		
 	}
 
 	public void start(){
