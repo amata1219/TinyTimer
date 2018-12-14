@@ -1,6 +1,5 @@
 package amata1219.tiny.timer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,25 +18,38 @@ public class CountdownRunnable extends BukkitRunnable {
 
 		if(timer.isPreparing()){
 			timer.minusPrepareTime();
+			timer.updateBarTitle();
 
 			if(timer.getPrepareTime() > 5)
 				return;
 
 			if(timer.getPrepareTime() == 0){
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), timer.getStartCommand());
+				timer.executeStartCommand();
+				Util.sendTitle(timer, ChatColor.AQUA + "START!");
 				return;
 			}
 
-			Util.sendTitle(ChatColor.GREEN + String.valueOf(timer.getPrepareTime()));
+			Util.sendTitle(timer, ChatColor.AQUA + String.valueOf(timer.getPrepareTime()));
 			return;
 		}
 
 		timer.minusTime();
 
+		if(timer.getTime() > 0)
+			timer.updateBarProgress();
+
+		timer.updateBarTitle();
+
 		if(timer.getTime() > 5)
 			return;
 
-		Util.sendTitle(ChatColor.GREEN + String.valueOf(""));
+		if(timer.getTime() == 0){
+			Util.sendTitle(timer, ChatColor.AQUA + "FINISH!");
+			timer.end();
+			return;
+		}
+
+		Util.sendTitle(timer, ChatColor.AQUA + String.valueOf(timer.getTime()));
 	}
 
 }

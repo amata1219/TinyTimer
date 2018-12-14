@@ -17,12 +17,15 @@ public class TinyTimer extends JavaPlugin {
 	public void onEnable(){
 		plugin = this;
 
+		TimerManager.load();
+
 		commands.put("timer", new TimerCommand());
+		commands.put("timer+", new TimerPlusCommand());
 	}
 
 	@Override
 	public void onDisable(){
-
+		TimerManager.unload();
 	}
 
 	@Override
