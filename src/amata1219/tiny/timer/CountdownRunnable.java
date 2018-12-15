@@ -1,6 +1,7 @@
 package amata1219.tiny.timer;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class CountdownRunnable extends BukkitRunnable {
@@ -20,16 +21,22 @@ public class CountdownRunnable extends BukkitRunnable {
 			timer.minusPrepareTime();
 			timer.updateBarTitle();
 
-			if(timer.getPrepareTime() > 5)
+			if(timer.getPrepareTime() > TinyTimer.getPlugin().getConfig().getInt("CountdownThreshold"))
 				return;
 
 			if(timer.getPrepareTime() == 0){
 				timer.executeStartCommand();
-				Util.sendTitle(timer, ChatColor.AQUA + "START!");
+				Util.sendTitle(timer, TinyTimer.getPlugin().getConfig().getString("StartMessage"));
+
+				Sound sound = Sound.valueOf(TinyTimer.getPlugin().getConfig().getString("StartSound"));
+				Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 1, 1));
 				return;
 			}
 
-			Util.sendTitle(timer, ChatColor.AQUA + String.valueOf(timer.getPrepareTime()));
+			Util.sendTitle(timer, TinyTimer.getPlugin().getConfig().getString("CountdownMessageColor") + String.valueOf(timer.getPrepareTime()));
+
+			Sound sound = Sound.valueOf(TinyTimer.getPlugin().getConfig().getString("CountdownSound"));
+			Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 1, 1));
 			return;
 		}
 
@@ -40,16 +47,23 @@ public class CountdownRunnable extends BukkitRunnable {
 
 		timer.updateBarTitle();
 
-		if(timer.getTime() > 5)
+		if(timer.getTime() > TinyTimer.getPlugin().getConfig().getInt("CountdownThreshold"))
 			return;
 
 		if(timer.getTime() == 0){
-			Util.sendTitle(timer, ChatColor.AQUA + "FINISH!");
+			Util.sendTitle(timer, TinyTimer.getPlugin().getConfig().getString("EndMessage"));
+
+			Sound sound = Sound.valueOf(TinyTimer.getPlugin().getConfig().getString("EndSound"));
+			Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 1, 1));
+
 			timer.end();
 			return;
 		}
 
-		Util.sendTitle(timer, ChatColor.AQUA + String.valueOf(timer.getTime()));
+		Util.sendTitle(timer, TinyTimer.getPlugin().getConfig().getString("CountdownMessageColor") + String.valueOf(timer.getTime()));
+
+		Sound sound = Sound.valueOf(TinyTimer.getPlugin().getConfig().getString("CountdownSound"));
+		Bukkit.getOnlinePlayers().forEach(player -> player.playSound(player.getLocation(), sound, 1, 1));
 	}
 
 }

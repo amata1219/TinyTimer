@@ -28,6 +28,11 @@ public class TimerPlusCommand implements TabExecutor {
 
 			String name = args[1];
 
+			if(TimerManager.isExistTimer(name)){
+				sender.sendMessage(ChatColor.RED + "タイマー(" + name + ")は既に実行中です。");
+				return true;
+			}
+
 			int time = 0, prepare = 0;
 			try{
 				time = Integer.valueOf(args[2]);

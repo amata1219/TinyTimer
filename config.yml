@@ -1,0 +1,8 @@
+#https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+StartMessage: '§bSTART!'
+StartSound: 'UI_BUTTON_CLICK'
+CountdownThreshold: 5
+CountdownMessageColor: '§b'
+CountdownSound: 'UI_BUTTON_CLICK'
+EndMessage: '§bFINISH!'
+EndSound: 'UI_BUTTON_CLICK'

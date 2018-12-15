@@ -17,9 +17,19 @@ public class TimerCommand implements TabExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if(args.length == 0){
+			sender.sendMessage(ChatColor.GRAY + "(ConfigCommand: /timer reload)");
 			sender.sendMessage(ChatColor.GRAY + "(TimerCommand: /timer start [時間(s)] [準備時間(s)] \"[開始時に実行されるコマンド]\" \"[終了時実行コマンド]\"");
 			return true;
+		}else if(args[0].equalsIgnoreCase("reload")){
+			TinyTimer.getPlugin().reloadConfig();
+			sender.sendMessage(ChatColor.AQUA + "コンフィグをリロードしました。");
+			return true;
 		}else if(args[0].equalsIgnoreCase("start")){
+			if(TimerManager.isExistTimer("TinyTimer(デフォルト)")){
+				sender.sendMessage(ChatColor.RED + "デフォルトタイマーは既に実行中です。");
+				return true;
+			}
+
 			if(args.length < 5){
 				sender.sendMessage(ChatColor.RED + "引数が足りません。");
 				sender.sendMessage(ChatColor.GRAY + "(TimerCommand: /timer start [時間(s)] [準備時間(s)] \"[開始時に実行されるコマンド]\" \"[終了時実行コマンド]\"");
@@ -41,7 +51,7 @@ public class TimerCommand implements TabExecutor {
 				sender.sendMessage(ChatColor.GRAY + "(TimerCommand: /timer start [時間(s)] [準備時間(s)] \"[開始時に実行されるコマンド]\" \"[終了時実行コマンド]\"");
 				return true;
 			}
-			
+
 			if(prepare < 0){
 				sender.sendMessage(ChatColor.RED + "準備時間は0又は自然数で入力して下さい。");
 				sender.sendMessage(ChatColor.GRAY + "(TimerCommand: /timer start [時間(s)] [準備時間(s)] \"[開始時に実行されるコマンド]\" \"[終了時実行コマンド]\"");

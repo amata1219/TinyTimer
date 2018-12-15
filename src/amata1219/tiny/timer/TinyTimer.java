@@ -19,6 +19,8 @@ public class TinyTimer extends JavaPlugin {
 
 		TimerManager.load();
 
+		saveDefaultConfig();
+
 		commands.put("timer", new TimerCommand());
 		commands.put("timer+", new TimerPlusCommand());
 	}
